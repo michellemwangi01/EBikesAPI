@@ -22,13 +22,18 @@ Parameter Type Description
 4. destination_long float Longitude of the destination
 
 JSON
-`{  "origin_lat": -1.3433182103402546,  "origin_long": 6.76600758309724,  "destination_lat": -1.3913519108241854,  "destination_long": 36.76051708309745}`
+`{  "origin_lat": -1.3433182103402546, 
+ "origin_long": 6.76600758309724,
+   "destination_lat": -1.3913519108241854, 
+    "destination_long": 36.76051708309745}`
 
 ### Response
 
 Successful Response (200 OK)
 Returns the delivery price based on the calculated distance.
-`{   "delivery_price": 225.0}`
+`{ 
+"delivery_price": 225.0
+}`
 
 ### Error Responses
 

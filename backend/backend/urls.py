@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('google_api/', include('googleAPI.urls')),
+    path('fleetbase_api/', include('fleetbaseAPI.urls')),
 ]

@@ -136,6 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 'CORS_ALLOW_CREDENTIALS = True'
 
 
+# APPEND_SLASH = False
 
 # 'oKAY , i have my django environment fully set up. Here is the context of what i want to do.
 # I want my api endpooint to receive the geocodes of 2 locations (lat,long) and be able to calculate the route distamce between those 2 locations and return it to me in KMS. I am not sure what google API i can use for this. help me"
