@@ -2,6 +2,10 @@
 
 This API calculates the distance between two geographic coordinates using the Google Distance Matrix API and returns the delivery price based on the calculated distance.
 
+## API DOCUMENTATION
+
+The API documentation is available on the `/docs` endpoint
+
 ## Endpoint: Calculate Distance
 
 `URL: /google_api/calculate-distance/`

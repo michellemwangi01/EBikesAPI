@@ -20,4 +20,8 @@ class PayloadSerializer(serializers.Serializer):
 class OrderSerializer(serializers.Serializer):
     payload = serializers.CharField(required=True)
     dispatch = serializers.BooleanField(required=False, default=True)
+    type = serializers.CharField(required=False, default='Transport')
+    facilitator = serializers.CharField(required=False, default="contact_b995svA")
+    customer = serializers.CharField(required=False, default='contact_sxxNtH8')
     notes = serializers.CharField(required=False, allow_blank=True)
+    driver = serializers.CharField(required=False, allow_blank=True)
