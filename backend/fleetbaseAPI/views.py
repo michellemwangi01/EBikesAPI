@@ -86,11 +86,16 @@ def create_order(request):
     }
     
     pickup_response = fn_create_place(pickup_data)
+    
     if pickup_response.status_code != 201:
-        return pickup_response
-    print(pickup_response)
-    pickup_id = pickup_response.data.get('place_id')
-    print(f"---------------PICKUP PLACE CREATED {pickup_id} ---------------")
+        if pickup_response.status_code == 200:
+            pickup_id = pickup_response.data.get('id')
+            print(f"---------------PICKUP PLACE ALREADY EXISTS {pickup_id} ---------------")
+        else:
+            return pickup_response
+    else:
+        pickup_id = pickup_response.data.get('place_id')
+        print(f"---------------PICKUP PLACE CREATED {pickup_id} ---------------")
     
     # Create dropoff place
     dropoff_data = {
@@ -100,16 +105,21 @@ def create_order(request):
     }
     dropoff_response = fn_create_place(dropoff_data)
     if dropoff_response.status_code != 201:
-        return dropoff_response
-    dropoff_id = dropoff_response.data.get('place_id')
-    print(f"---------------DROPOFF PLACE CREATED {dropoff_id} ---------------")
+        if dropoff_response.status_code == 200:
+            dropoff_id = pickup_response.data.get('id')
+            print(f"--------------- DROPOFF PLACE ALREADY EXISTS {dropoff_id} ---------------")
+        else:
+            return dropoff_response
+    else:    
+        dropoff_id = dropoff_response.data.get('place_id')
+        print(f"---------------DROPOFF PLACE CREATED {dropoff_id} ---------------")
 
 
     # Create payload
     payload_data = {
         'pickup': pickup_id,
         'dropoff': dropoff_id,
-        'return_place': request.data.get('return_place', ''),
+        'return':  pickup_id,
         'customer': request.data.get('customer'),
         'meta': request.data.get('meta', {}),
         'cod_amount': request.data.get('cod_amount', 0),
@@ -128,7 +138,11 @@ def create_order(request):
     order_data = {
         'payload': payload_id,
         'dispatch': request.data.get('dispatch', True),
-        'notes': request.data.get('notes', '')
+        'type': request.data.get('order_type'),
+        'facilitator': request.data.get('facilitator'),
+        'customer': request.data.get('customer'),
+        'notes': request.data.get('delivery_notes', ''),
+        'driver': request.data.get('driver', '')
     }
     headers = {
         'Authorization': f'Bearer {FLEETBASE_API_KEY}',
@@ -139,6 +153,7 @@ def create_order(request):
     if response.status_code == 201:
         order_data = response.json()
         order_id = order_data.get('id')
+        print(f"--------------- ORDER SUCCESSFULLY CREATED {order_id}---------------")
         return Response({'order_id': order_id}, status=status.HTTP_201_CREATED)
     else:
         return Response(response.json(), status=response.status_code)
@@ -200,4 +215,5 @@ def fn_create_payload(payload_data):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # ------------------ PENDING ------------------
-# When a place exists already, the code stops
+# When a place exists already, the code stops - DONE
+# Add the COD aount from the price of delivery + value of the actual item
